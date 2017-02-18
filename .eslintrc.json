@@ -1,0 +1,45 @@
+{
+    "root": true,
+    "env": {
+        "browser": true,
+        "es6": true,
+        "node": true
+    },
+    "extends": ["eslint:recommended", "plugin:react/recommended"],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "experimentalObjectRestSpread": true,
+            "jsx": true
+        },
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+        "indent": [ "error", 4 ],
+        "linebreak-style": [ "error", "unix" ],
+        "quotes": [ "error", "double" ],
+        "semi": [ "error", "always" ],
+        "no-unused-vars": ["error", {
+            "varsIgnorePattern": "_",
+            "argsIgnorePattern": "_"
+        }],
+        "array-callback-return": "error",
+        "block-scoped-var": "error",
+        "curly": ["error", "all"],
+        "eqeqeq": "error",
+        "no-implicit-globals": "error",
+        "no-self-compare": "error",
+        "no-sequences": "error",
+        "no-unused-expressions": "error",
+        "radix": "error",
+        "no-duplicate-imports": "error",
+        "no-var": "error",
+        "no-shadow": "error",
+        "init-declarations": "error",
+        "react/prop-types": "off",
+        "react/jsx-key": "error",
+        "react/no-danger": "off"
+    }
+}
