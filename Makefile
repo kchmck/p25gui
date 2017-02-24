@@ -16,12 +16,11 @@ static/css/%.css: styles/%.scss
 	node-sass $(SASS_FLAGS) $< >$@
 
 static/js/app.js: $(LIB)
-	webpack --cache
 
 build: $(LIB)
 
-test: build
-	mocha --compilers js:babel-register -u qunit lib/**/test/*
+test:
+	NODE_ENV=test mocha --recursive --require babel-register -u qunit src
 
 lint:
 	eslint src

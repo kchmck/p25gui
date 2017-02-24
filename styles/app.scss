@@ -1,0 +1,32 @@
+@import "../vendor/bootstrap/scss/bootstrap";
+
+body {
+    background: #fafafa;
+    font-family: Roboto, sans-serif;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.container {
+    width: 680px;
+}
+
+main >div {
+    margin-bottom: 1rem;
+}
+
+h1 {
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    color: #888;
+}
+
+#talkgroup {
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+#signal {
+    font-size: 2rem;
+    color: #adcc59;
+}
