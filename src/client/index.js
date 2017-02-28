@@ -12,15 +12,16 @@ function initClient() {
 
     state.fetchCtlFreq();
 
-    let events = state.startEventStream();
+    let events = state.startEventSource();
     let handlers = createEventHandlers(state);
 
-    events.onerror = (e) => {
+    events.onerror = e => {
         e.preventDefault();
         console.log("error", e);
+        state.setError(e);
     };
 
-    events.onmessage = (e) => {
+    events.onmessage = e => {
         let data = JSON.parse(e.data);
 
         if (!data.event) {
@@ -35,6 +36,56 @@ function initClient() {
 
         handler(data.payload);
     };
+
+    let data = Array.from(Array(100).keys()).map(x => ({x, y: NaN}));
+
+    var Chart = require("chart.js");
+    var myChart = new Chart(document.getElementById("myChart"), {
+        type: "line",
+        data: {
+            datasets: [{
+                data: data,
+                // lineTension: 0,
+                fill: false,
+                borderColor: "#FF0000",
+                spanGaps: true,
+                pointRadius: 0,
+            }]
+        },
+        options: {
+            animation: {duration: 0},
+            scales: {
+                xAxes: [{
+                    type: "linear",
+                    position: "bottom",
+                    display: false,
+                    ticks: {
+                        min: 0,
+                        max: data.length,
+                    },
+                }],
+                yAxes: [{
+                    display: false,
+                    ticks: {
+                        min: 0.0,
+                        max: 1.0,
+                    },
+                }],
+            },
+            legend: {display: false},
+            // responsive: false,
+        }
+    });
+
+    setInterval(function() {
+        for (let i = data.length - 1; i > 0; i -= 1) {
+            data[i].y = data[i - 1].y;
+        }
+
+        data[0].y = Math.random();
+
+        myChart.update();
+    }, 500);
 }
 
 const createEventHandlers = (state) => ({
@@ -51,16 +102,16 @@ const createEventHandlers = (state) => ({
         state.updateCtlFreq(freq);
     },
     rfssStatus(s) {
-        console.log("rfss", s);
+        state.updateSite(s);
     },
     networkStatus(s) {
-        console.log("network", s);
+        state.updateSite(s);
     },
     altControl(a) {
-        console.log("alt", a);
+        state.addAltControl(a);
     },
-    adjacentSite(a) {
-        console.log("adj", a);
+    adjacentSite(s) {
+        state.addAdjacentSite(s);
     },
     srcUnit(u) {
         state.updateCurUnit(u);

@@ -14,6 +14,7 @@ module.exports = {
     entry: "./lib/client/index",
     resolve: {
         extensions: [".js"],
+        unsafeCache: true,
     },
     output: {
         path: __dirname + "/static/js",
