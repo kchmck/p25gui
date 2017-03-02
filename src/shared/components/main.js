@@ -3,12 +3,14 @@ import {observer} from "inferno-mobx";
 import {sprintf} from "sprintf-js";
 
 import {calcSReading} from "../util";
+import {createChart} from "./chart";
 
 const App = observer(({s}) => h("main", [
     h("h1", "Talkgroup"),
     h("#talkgroup", s.talkgroup),
     h("h1", "Signal strength"),
     h("#sigPower", {title: `${s.sigPower} dBm`}, calcSReading(s.sigPower)),
+    createChart(el => s.initSigPlot(el), {width: 400, height: 200}),
     h("h1", "Current frequency"),
     h("#curFreq", dispFreq(s.curFreq)),
     h("h1", "Control channel"),

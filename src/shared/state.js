@@ -1,5 +1,6 @@
+import Chart from "chart.js";
 import axios from "axios";
-import {observable, computed, action} from "mobx";
+import {observable, computed, action, autorun} from "mobx";
 import {sprintf} from "sprintf-js";
 
 import {RingBuffer} from "./ringbuf";
@@ -8,6 +9,7 @@ export const createState = () => observable({
     apiUrl: "http://127.0.0.1:8025",
     eventSource: null,
     sigPower: -Infinity,
+    sigPlot: null,
     curFreq: null,
     control: createSite(),
     talkgroup: null,
@@ -95,6 +97,58 @@ export const createState = () => observable({
     startEventSource: action(function() {
         this.eventSource = new EventSource(`${this.apiUrl}/subscribe`);
         return this.eventSource;
+    }),
+
+    initSigPlot: action(function(el) {
+        let data = Array.from(Array(100).keys()).map(x => ({x, y: NaN}));
+
+        autorun(() => {
+            for (let i = data.length - 1; i > 0; i -= 1) {
+                data[i].y = data[i - 1].y;
+            }
+
+            data[0].y = this.sigPower;
+
+            this.sigPlot.update();
+        });
+
+        this.sigPlot = new Chart(el, {
+            type: "line",
+            data: {
+                datasets: [{
+                    data: data,
+                    fill: false,
+                    borderColor: "#FF0000",
+                    spanGaps: true,
+                    pointRadius: 0,
+                }]
+            },
+            options: {
+                animation: {duration: 0},
+                scales: {
+                    xAxes: [{
+                        type: "linear",
+                        position: "bottom",
+                        display: false,
+                        ticks: {
+                            min: 0,
+                            max: data.length,
+                        },
+                    }],
+                    yAxes: [{
+                        display: false,
+                        ticks: {
+                            min: -140,
+                            max: -70,
+                        },
+                    }],
+                },
+                legend: {display: false},
+                responsive: false,
+            },
+        });
+
+        return this.sigPlot;
     }),
 });
 
