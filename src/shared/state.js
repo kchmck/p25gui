@@ -1,4 +1,3 @@
-import Chart from "chart.js";
 import axios from "axios";
 import {observable, computed, action, autorun} from "mobx";
 import {sprintf} from "sprintf-js";
@@ -111,6 +110,8 @@ export const createState = () => observable({
 
             this.sigPlot.update();
         });
+
+        let Chart = require("chart.js");
 
         this.sigPlot = new Chart(el, {
             type: "line",
