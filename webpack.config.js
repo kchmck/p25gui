@@ -21,12 +21,4 @@ module.exports = {
         filename: "app.js",
     },
     plugins: plugins,
-    module: {
-        rules: [
-            {
-                test: /\.js$/,
-                loader: "babel-loader",
-            },
-        ],
-    },
 };
