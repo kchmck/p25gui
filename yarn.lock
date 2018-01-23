@@ -843,6 +843,13 @@ boom@2.x.x:
   dependencies:
     hoek "2.x.x"
 
+bootstrap@4.0.0-alpha.6:
+  version "4.0.0-alpha.6"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.0.0-alpha.6.tgz#4f54dd33ac0deac3b28407bc2df7ec608869c9c8"
+  dependencies:
+    jquery ">=1.9.1"
+    tether "^1.4.0"
+
 brace-expansion@^1.0.0:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-1.1.6.tgz#7197d7eaa9b87e648390ea61fc66c84427420df9"
@@ -2432,6 +2439,10 @@ jodid25519@^1.0.0:
   dependencies:
     jsbn "~0.1.0"
 
+jquery@>=1.9.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
+
 js-base64@^2.1.8:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.4.0.tgz#9e566fee624751a1d720c966cd6226d29d4025aa"
@@ -3918,6 +3929,10 @@ tar@^2.0.0, tar@~2.2.1:
     block-stream "*"
     fstream "^1.0.2"
     inherits "2"
+
+tether@^1.4.0:
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/tether/-/tether-1.4.3.tgz#fd547024c47b6e5c9b87e1880f997991a9a6ad54"
 
 text-table@~0.2.0:
   version "0.2.0"
