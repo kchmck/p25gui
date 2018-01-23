@@ -38,7 +38,7 @@ function initClient() {
     };
 }
 
-const createEventHandlers = (state) => ({
+const createEventHandlers = state => ({
     talkGroup(tg) {
         state.updateTalkGroup(tg);
     },

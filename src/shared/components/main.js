@@ -7,7 +7,8 @@ import {createChart} from "./chart";
 
 const App = observer(({s}) => h("main", [
     h("h1", "Talkgroup"),
-    h("#talkgroup", s.talkgroup),
+    h("#talkgroup", null, h("ul", null,
+        s.talkgroups.map(tg => h("li", null, tg)))),
     h("h1", "Signal strength"),
     h("#sigPower", {title: `${s.sigPower} dBm`}, calcSReading(s.sigPower)),
     createChart(el => s.initSigPlot(el), {width: 400, height: 200}),

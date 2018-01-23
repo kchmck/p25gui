@@ -11,23 +11,26 @@ export const createState = () => observable({
     sigPlot: null,
     curFreq: null,
     control: createSite(),
-    talkgroup: null,
+    talkgroups: new RingBuffer(10),
     error: 0,
+    docTitle: "P25 - Idle",
     units: new RingBuffer(8),
     altControl: observable.map(),
     adjacentSites: observable.map(),
 
     setError: action(function(e) {
-        self.error = e;
+        this.error = e;
     }),
 
     updateTalkGroup: action(function(tg) {
-        if (tg.Other) {
-            // TODO: verify number
-            this.talkgroup = sprintf("0x%03X", tg.Other);
-        } else {
-            this.talkgroup = tg;
+        // TODO: verify number
+        tg = tg.Other ? sprintf("%03X", tg.Other) : tg;
+
+        if (tg == this.talkgroups.top()) {
+            return;
         }
+
+        this.talkgroups.push(tg);
     }),
 
     updateSigPower: action(function(p) {
@@ -44,7 +47,7 @@ export const createState = () => observable({
         if (freq !== this.control.freq) {
             this.altControl.clear();
             this.adjacentSites.clear();
-            this.control = createSite({freq});
+            this.control = createSite();
         }
 
         // TODO: verify number
@@ -61,13 +64,11 @@ export const createState = () => observable({
     }),
 
     updateCurUnit: action(function(u) {
-        if (u === 0) {
+        if (u === 0 || this.units.top() === u) {
             return;
         }
 
-        if (this.units.top() !== u) {
-            this.units.push(u);
-        }
+        this.units.push(u);
     }),
 
     addAltControl: action(function({rfss, site, freq}) {
@@ -75,9 +76,9 @@ export const createState = () => observable({
     }),
 
     addAdjacentSite: action(function({rfss, system, site, freq}) {
-        let info = createSite(Object.assign({rfss, system, site, freq}, {
+        let info = createSite({rfss, system, site, freq,
             wacn: this.control.wacn,
-        }));
+        });
 
         this.adjacentSites.set(freq, info);
     }),
@@ -153,7 +154,7 @@ export const createState = () => observable({
     }),
 });
 
-const createSite = (params = {}) => Object.assign({}, {
+const createSite = (params = {}) => Object.assign({
     freq: null,
     wacn: null,
     area: null,
