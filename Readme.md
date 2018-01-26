@@ -19,9 +19,10 @@ First, clone the repo:
 git clone https://github.com/kchmck/p25gui.git && cd p25gui
 ```
 
-Then, install dependencies:
+Then, install dependencies and update your path:
 ```
 yarn
+PATH=$(yarn bin):$PATH
 ```
 
 Finally, build the project:
