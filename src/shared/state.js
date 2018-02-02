@@ -24,7 +24,7 @@ export const createState = () => observable({
 
     updateTalkGroup: action(function(tg) {
         // TODO: verify number
-        tg = tg.Other ? sprintf("%03X", tg.Other) : tg;
+        tg = sprintf("%03X", tg);
 
         if (tg == this.talkgroups.top()) {
             return;
